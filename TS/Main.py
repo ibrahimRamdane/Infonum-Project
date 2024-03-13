@@ -27,10 +27,10 @@ if __name__ == "__main__":
     if (len(numbers)==1) and (visu=='Y' or 'Yes' or 'y' or 'yes'):
         plot_graph(data)
         plot_segm(data,precision)
-        adding_image(plt.imread("logo hadamard stage.jfif"),2021)
+        # adding_image(plt.imread("logo hadamard stage.jfif"),2021)
         plt.show() 
 
     if (len(numbers)>=2) and (visu=='Y' or 'Yes' or 'y' or 'yes'):
         plot_segm_several(data,numbers,precision)
-        adding_image(plt.imread("logo hadamard stage.jfif"),2021)
+        # adding_image(plt.imread("logo hadamard stage.jfif"),2021)
         plt.show()
