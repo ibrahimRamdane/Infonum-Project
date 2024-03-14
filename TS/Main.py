@@ -18,12 +18,12 @@ if __name__ == "__main__":
         precision_recommande=10
     precision=int(input("Précision des segments ({} recomandé)) : ".format(precision_recommande)))
     visu=input('Visualisation des courbes ? (Y/N) : ')
-    # if len(numbers)==0:
-    #     print("False")
-    # elif len(numbers)==1:
-    #     print(cren_date(data,precision))
-    # elif len(numbers)>=2:
-    #     print(cren_date_several(data,numbers,precision))
+    if len(numbers)==0:
+        print("False")
+    elif len(numbers)==1:
+        print(cren_date(data,precision))
+    elif len(numbers)>=2:
+        print(cren_date_several(data,numbers,precision))
     if (len(numbers)==1) and (visu=='Y' or 'Yes' or 'y' or 'yes'):
         plot_graph(data,numbers)
         plot_segm(data,precision)

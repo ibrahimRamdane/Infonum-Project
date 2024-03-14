@@ -147,7 +147,7 @@ def plot_segm_several(data,stocks,precision):
     palette=[]
     number = len(stocks)
     cmap = plt.get_cmap('twilight')
-    colors = [cmap(i) for i in np.linspace(5, 8, number)]
+    colors = [cmap(i) for i in np.linspace(0, 1, number)]
     for i in range(number):
         palette.append(mcolors.rgb2hex(colors[i]))
     for x in stocks:
