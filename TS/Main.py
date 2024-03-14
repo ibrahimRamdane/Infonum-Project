@@ -25,7 +25,7 @@ if __name__ == "__main__":
     elif len(numbers)>=2:
         print(cren_date_several(data,numbers,precision))
     if (len(numbers)==1) and (visu=='Y' or 'Yes' or 'y' or 'yes'):
-        plot_graph(data)
+        plot_graph(data,numbers)
         plot_segm(data,precision)
         # adding_image(plt.imread("logo hadamard stage.jfif"),2021)
         plt.show() 
