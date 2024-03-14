@@ -8,6 +8,7 @@ from datetime import timedelta
 from scipy.ndimage import gaussian_filter1d
 import numpy
 import pandas
+import matplotlib.colors as mcolors
 
 from Metrics import metric4
 
@@ -133,12 +134,22 @@ def plot_segm(data,precision):
             plt.plot([start,stop],[close_start,close_stop],'m--', linewidth=3)
     return
 
-def plot_graph(data):
-    plt.plot(data.index,data['Close'], color = '#C0C0C0')
+def plot_graph(data,stocks):
+    plt.plot(data.index,data['Close'], color="#C0C0C0",label=stocks[0])
+    plt.xlabel('Date')
+    plt.ylabel('Prix action')
+    plt.gcf().autofmt_xdate()
+    plt.legend()
     return
 
 def plot_segm_several(data,stocks,precision):
     k=0
+    palette=[]
+    number = len(stocks)
+    cmap = plt.get_cmap('twilight')
+    colors = [cmap(i) for i in np.linspace(5, 8, number)]
+    for i in range(number):
+        palette.append(mcolors.rgb2hex(colors[i]))
     for x in stocks:
         table=metric_date_tab_several(data,stocks,precision)[k]
         for i in range (len (table)):
@@ -160,8 +171,13 @@ def plot_segm_several(data,stocks,precision):
                 close_start=table['Close_start'][i]
                 close_stop=table['Close_stop'][i]
                 plt.plot([start,stop],[close_start,close_stop],'m--', linewidth=3)    
+        
+        plt.plot(data['Close'][x].index,data['Close'][x],label=str(x), color=palette[k])
+        plt.xlabel('Date')
+        plt.ylabel('Prix action')
+        plt.gcf().autofmt_xdate()
+        plt.legend()
         k=k+1
-        plt.plot(data['Close'][x].index,data['Close'][x], color = '#C0C0C0')
     return
 
 
