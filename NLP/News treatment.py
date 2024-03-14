@@ -4,10 +4,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-from transformers import AutoTokenizer, AutoModel
+from transformers import AutoTokenizer, AutoModel, AutoModelForTokenClassification, pipeline
+
 import torch
 from scipy.spatial.distance import cosine
-import pandas as pd  # Assuming you're using pandas DataFrame for 'df'
 
 from sklearn.cluster import KMeans
 import math
@@ -137,59 +137,71 @@ class TextProcessor:
         embedding_ref = self.get_embedding(reference)
 
         def similarity_to_0(row):
-            global embedding_ref
             return 1 - cosine(row['Embedding'], embedding_ref)
 
         self.df['Similarity'] = self.df.apply(similarity_to_0, axis=1)
 
         return self.df
 
-    def save_df(self, file_name='file_name'):
-        '''
-        Saves the dataframe to a pickle file.
-
-        Parameters:
-        - file_name (str): The name of the pickle file. Default is 'file_name'.
-        '''
+    def save_df(self, file_name='test_News_treatment.pkl'):
+        '''Saves the dataframe to a pickle file.'''
         self.df.to_pickle(file_name)
 
-        
-if __name__=='__main__':
-    df = pd.read_pickle('df simple - 1 janvier to 7 mars.pkl')
-    text_processor = TextProcessor(df)
-    text_processor.add_embedding_column()
-    text_processor.add_ner_column('Apple')
-    text_processor.add_cluster_column(30)
 
-    ref_apple = """Apple Inc. (formerly Apple Computer, Inc.) is an American multinational technology company headquartered\
-    in Cupertino, California, in Silicon Valley. It designs, develops, and sells consumer electronics, computer\
-    software, and online services. Devices include the iPhone, iPad, Mac, Apple Watch, and Apple TV; operating\
-    systems include iOS and macOS; and software applications and services include iTunes, iCloud, and Apple Music\
-    """
-
-    text_processor.add_similar_column(ref_apple)
-
-    text_processor.save_df()
-
+if __name__ == '__main__':
+    steps = [
+        'load_dataframe',
+        'add_embedding_column',
+        'add_ner_column',
+        'add_cluster_column',
+        'add_similar_column',
+        'save_df'
+    ]
     
-if __name__=='__main__':
-    df = pd.read_pickle('df simple - 1 janvier to 7 mars.pkl')
+    # Define your file and load DataFrame outside the try-except blocks
+    file = 'df simple - 1 janvier to 7 mars.pkl'
+    file = 'test Getting the news.pkl'
+    df = pd.read_pickle(file)
+    
     text_processor = TextProcessor(df)
-    text_processor.add_embedding_column()
-    text_processor.add_ner_column('Apple')
-    text_processor.add_cluster_column(30)
-
-    ref_apple = """Apple Inc. (formerly Apple Computer, Inc.) is an American multinational technology company headquartered\
-    in Cupertino, California, in Silicon Valley. It designs, develops, and sells consumer electronics, computer\
-    software, and online services. Devices include the iPhone, iPad, Mac, Apple Watch, and Apple TV; operating\
-    systems include iOS and macOS; and software applications and services include iTunes, iCloud, and Apple Music\
-    """
-
-    text_processor.add_similar_column(ref_apple)
-
-    text_processor.save_df()
-
-
+    
+    while steps:
+        current_step = steps[0]
+        
+        try:
+            if current_step == 'load_dataframe':
+                # Assuming loading is done above, just a placeholder here
+                print("DataFrame loaded.")
+            
+            elif current_step == 'add_embedding_column':
+                text_processor.add_embedding_column()
+                print("Embedding column added.")
+                
+            elif current_step == 'add_ner_column':
+                text_processor.add_ner_column('Apple')
+                print("NER column added.")
+                
+            elif current_step == 'add_cluster_column':
+                text_processor.add_cluster_column(30)
+                print("Cluster column added.")
+                
+            elif current_step == 'add_similar_column':
+                ref_apple = """Apple Inc. (formerly Apple Computer, Inc.) is an American multinational technology company headquartered in Cupertino, California, in Silicon Valley. It designs, develops, and sells consumer electronics, computer software, and online services."""
+                text_processor.add_similar_column(ref_apple)
+                print("Similar column added.")
+                
+            elif current_step == 'save_df':
+                text_processor.save_df()
+                print("DataFrame saved.")
+                
+            # Remove the current step from the list if it completes successfully
+            steps.pop(0)
+        
+        except Exception as e:
+            # Handle any error that occurs and continue with the next step
+            print(f"An error occurred in step '{current_step}': {e}. Continuing with next step...")
+            # Optionally, you might want to remove the failed step or leave it to retry later
+            steps.pop(0)
 
 
     

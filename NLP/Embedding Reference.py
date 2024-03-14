@@ -51,9 +51,6 @@ class WikipediaAPI:
         except requests.RequestException as e:
             print(f"Error making API request: {e}")
 
-        print("Unable to fetch Wikipedia page.")
-
-
     def get_embedding(self)-> torch.Tensor:
         '''Retrieves the embedding for the reference text.'''
         # Tokenize and convert to input IDs
@@ -68,20 +65,25 @@ class WikipediaAPI:
         return embeddings.squeeze()
     
     def embedding_of_text(self)-> torch.Tensor:
-        '''Retrieves the embedding for the reference text using BERT model.'''
+        '''Retrieves the embedding for the reference text using BERT model.'''       
         model = "bert-base-uncased"
         self.tokenizer_bert = AutoTokenizer.from_pretrained(model)
         self.model_bert = AutoModel.from_pretrained(model)
 
         self.embedding_ref = self.get_embedding()
 
-        return self.embedding_ref
+        return self.embedding_ref.numpy()
 
 
 if __name__ == "__main__":
     enterprise = "Apple Inc."
     max_chars = 2400
+
     apple_reference = WikipediaAPI(enterprise, max_chars)
+
+    print(apple_reference.reference)
+
     embedding = apple_reference.embedding_of_text()
     
+    print(embedding)
     

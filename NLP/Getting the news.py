@@ -85,8 +85,6 @@ class NewsFetcher:
         segments_per_day = 24 // self.window_size
         article_counts = [0] * segments_per_day  # Adjusted based on window size
 
-
-
     def plot_articles_distribution_over_one_day(self):
         '''Plot the distribution of articles by time of day.'''
         segments_per_day = 24 // self.window_size
@@ -164,7 +162,7 @@ class NewsFetcher:
     
     def save_df(self, name_of_file = "name_file"):
         '''Save the cleaned news data to a file.'''
-        self.df.to_pickle('name_of_file')
+        self.df.to_pickle(name_of_file)
 
 
 if __name__ == "__main__":
@@ -172,7 +170,7 @@ if __name__ == "__main__":
     # fgara : beea3e5555144725be547cee1ea3fa03
     # fcs : 0bd6a2cb38be48d69a501953ef7f8270
     api_key='0bd6a2cb38be48d69a501953ef7f8270'
-    window_size = 1
+    window_size = 12
     news_fetcher = NewsFetcher(api_key, window_size)
     start_date = "2024-02-27"
     end_date = "2024-02-28"
