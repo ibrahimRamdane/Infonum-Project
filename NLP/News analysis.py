@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 class NewsAnalyzer:
 
     def __init__(self, df):
+        df['Date'] = pd.to_datetime(df['Date'])
         self.df = df
         self.data_frames = dict()
         self.data_frames['df'] = df
@@ -20,7 +21,7 @@ class NewsAnalyzer:
         plt.figure(figsize=(16, 5))
         
         plt.subplot(1, 1, 1)
-        sns.histplot(data=self.df, x=variable, kde=True, color='#006837', stat="density", alpha=0.5, bins=25) # Adjust bins
+        sns.histplot(data=self.df, x='Cluster', kde=True, color='#006837', stat="density", alpha=0.5, bins=25) # Adjust bins
         plt.title('Histogram')
         plt.xlabel('Cluster')
         plt.ylabel('Density')
@@ -40,19 +41,20 @@ class NewsAnalyzer:
 
     def get_i_most_similar_embedding_index(self, name, i=4):
         index_to_consider_embedding = list()
-        index_to_consider_embedding.append(self.data_frames['df_similar'][name]['Cluster'].value_counts()[0:i].index)
+        print("self.data_frames['df_similar']", self.data_frames['df_similar'])
+        index_to_consider_embedding.append(self.data_frames['df_similar'][str(name)]['Cluster'].value_counts()[0:i].index)
         self.index_to_consider_embedding = index_to_consider_embedding
         return index_to_consider_embedding
     
     def get_i_most_similar_entity_index(self, name, i=4):
         index_to_consider_entity = list()
-        index_to_consider_entity.append(self.data_frames['df_entity'][name]['Cluster'].value_counts()[0:i].index)
+        index_to_consider_entity.append(self.data_frames['df_entity'][str(name)]['Cluster'].value_counts()[0:i].index)
         self.index_to_consider_entity = index_to_consider_entity
         return index_to_consider_entity
 
     def plot_cluster_evolution(self, cluster_numbers, start_date, end_date):
         plt.figure(figsize=(14, 7))
-        
+        print('cluster_numbers',cluster_numbers)
         for cluster_number in cluster_numbers:
             # Filter the dataframe for the given cluster number and date range
             filtered_df = self.df[(self.df['Cluster'] == cluster_number) & (self.df['Date'] >= start_date) & (self.df['Date'] <= end_date)]
@@ -114,15 +116,24 @@ class NewsAnalyzer:
 
 
 if __name__=='__main__':
+    print(1)
     df = pd.read_pickle('df embedding and entity and cluster and similarity- 1 janvier to 7 mars')
+    print(2)
     news_analyzer = NewsAnalyzer(df)
-    news_analyzer.plot_of_clusters()
+    print(3)
+    #news_analyzer.plot_of_clusters()
+    print(4)
     news_analyzer.add_df_similar_embedding(0.6)
+    print(5)
     news_analyzer.add_df_similar_entity(0.5)
-
+    print(6)
     index_1 = news_analyzer.get_i_most_similar_embedding_index(0.6, 4)
     index_2 = news_analyzer.get_i_most_similar_entity_index(0.5, 4)
-    index_1_2 = set(index_1 + index_2)
+    index_1 = set(list([i for i in index_1][0]))
+    index_2 = set(list([i for i in index_2][0]))
+    index_1_2 = index_1.union(index_2)
     start_date = datetime(2024, 2, 1)
     end_date = datetime(2024, 3, 1)
+    print(7)
     news_analyzer.plot_cluster_evolution(index_1_2, start_date, end_date)
+    print(8)
