@@ -8,7 +8,7 @@ from matplotlib.figure import Figure
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from datetime import datetime
 
-from Metrics import metric4
+from TS.Metrics import metric4
 from Processing import *
 
 # stocks= input('list of companies : ')

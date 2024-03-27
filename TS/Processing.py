@@ -10,7 +10,7 @@ import numpy
 import pandas
 import matplotlib.colors as mcolors
 
-from Metrics import metric4
+from TS.Metrics import metric4
 
 stocks1 =['AAPL','MSFT']
 stocks2='AAPL'
