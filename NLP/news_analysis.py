@@ -213,6 +213,7 @@ class NewsAnalyzer:
         )
         summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
         print("Summary :", summary)
+        return summary
 
 
 if __name__=='__main__':

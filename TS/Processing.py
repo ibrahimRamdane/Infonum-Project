@@ -241,10 +241,11 @@ def cren_date(data,precision):
         date=tab['start'][i]
         L=[]
         for j in range(10):
-            L.append(date- datetime.timedelta(10-j))
+            L.append((date- datetime.timedelta(10-j)).date())
         for j in range(6):
-            L.append(date+datetime.timedelta(j)) 
+            L.append((date+datetime.timedelta(j)).date()) 
         tab['creneau'][i]=L
+        
     return [tab]
 
 def cren_date_several(data,stocks,precision):

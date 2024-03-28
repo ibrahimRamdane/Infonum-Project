@@ -1,6 +1,6 @@
 import pickle
 import pandas as pd
-from newsapi import NewsApiClient
+from newsapi import *
 import requests
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
@@ -165,24 +165,24 @@ class NewsFetcher:
         self.df.to_pickle(name_of_file)
 
 
-if __name__ == "__main__":
-    #api_key='0bd6a2cb38be48d69a501953ef7f8270'
-    # fgara : beea3e5555144725be547cee1ea3fa03
-    # fcs : 0bd6a2cb38be48d69a501953ef7f8270
-    api_key='0bd6a2cb38be48d69a501953ef7f8270'
-    window_size = 12
-    news_fetcher = NewsFetcher(api_key, window_size)
-    start_date = "2024-02-27"
-    end_date = "2024-02-28"
-    query = "your query here"
+# if __name__ == "__main__":
+#     #api_key='0bd6a2cb38be48d69a501953ef7f8270'
+#     # fgara : beea3e5555144725be547cee1ea3fa03
+#     # fcs : 0bd6a2cb38be48d69a501953ef7f8270
+#     api_key='0bd6a2cb38be48d69a501953ef7f8270'
+#     window_size = 12
+#     news_fetcher = NewsFetcher(api_key, window_size)
+#     start_date = "2024-02-27"
+#     end_date = "2024-02-28"
+#     query = "your query here"
 
-    articles = news_fetcher.fetch_news(start_date, end_date, query)
+#     articles = news_fetcher.fetch_news(start_date, end_date, query)
 
-    news_fetcher.plot_articles_distribution_over_one_day()
+#     news_fetcher.plot_articles_distribution_over_one_day()
 
-    news_fetcher.plot_articles_distribution_over_days(start_date, end_date)
+#     news_fetcher.plot_articles_distribution_over_days(start_date, end_date)
 
-    df = news_fetcher.dict_to_df()
-    print(df.head())
+#     df = news_fetcher.dict_to_df()
+#     print(df.head())
 
-    news_fetcher.save_df('test Getting the news.pkl')
+#     news_fetcher.save_df('test Getting the news.pkl')

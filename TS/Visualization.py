@@ -9,7 +9,7 @@ from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from datetime import datetime
 
 from TS.Metrics import metric4
-from Processing import *
+from TS.Processing import *
 
 # stocks= input('list of companies : ')
 # precision= input('précision segment : ')
