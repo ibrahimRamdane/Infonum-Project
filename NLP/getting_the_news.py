@@ -117,7 +117,6 @@ class NewsFetcher:
 
         # Assuming articles is the result from your fetch_news method
         # articles = news_fetcher.fetch_news(start_date, end_date, query)
-
         start_date = datetime.fromisoformat(start_date)
         end_date = datetime.fromisoformat(end_date)
         current_date = start_date
@@ -165,24 +164,26 @@ class NewsFetcher:
         self.df.to_pickle(name_of_file)
 
 
-# if __name__ == "__main__":
-#     #api_key='0bd6a2cb38be48d69a501953ef7f8270'
-#     # fgara : beea3e5555144725be547cee1ea3fa03
-#     # fcs : 0bd6a2cb38be48d69a501953ef7f8270
-#     api_key='0bd6a2cb38be48d69a501953ef7f8270'
-#     window_size = 12
-#     news_fetcher = NewsFetcher(api_key, window_size)
-#     start_date = "2024-02-27"
-#     end_date = "2024-02-28"
-#     query = "your query here"
+if __name__ == "__main__":
+    #api_key='0bd6a2cb38be48d69a501953ef7f8270'
+    #       : 'beea3e5555144725be547cee1ea3fa03'
+    api_key='beea3e5555144725be547cee1ea3fa03'
+    window_size = 12
+    news_fetcher = NewsFetcher(api_key, window_size)
+    # Free api only use 1 month old news. Not older
+    start_date = "2024-03-27"
+    end_date = "2024-03-28"
+    # Query not necesary
+    query = ""
 
-#     articles = news_fetcher.fetch_news(start_date, end_date, query)
+    articles = news_fetcher.fetch_news(start_date, end_date, query)
 
-#     news_fetcher.plot_articles_distribution_over_one_day()
+    news_fetcher.plot_articles_distribution_over_one_day()
 
-#     news_fetcher.plot_articles_distribution_over_days(start_date, end_date)
+    news_fetcher.plot_articles_distribution_over_days(start_date, end_date)
 
-#     df = news_fetcher.dict_to_df()
-#     print(df.head())
+    df = news_fetcher.dict_to_df()
+    print(df.head())
 
-#     news_fetcher.save_df('test Getting the news.pkl')
+    news_fetcher.save_df('test_getting_the_news.pkl')
+
