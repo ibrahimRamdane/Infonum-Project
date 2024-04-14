@@ -39,3 +39,7 @@ def adding_image(im,date):
     im = OffsetImage(im, zoom=.05)
     ab = AnnotationBbox(im, (date, 120), xycoords='data', box_alignment=(1.1,-0.1))
     ax.add_artist(ab)
+
+def on_hover(L,sel):
+    # Associer le texte correspondant à chaque point
+    sel.annotation.set_text(L[sel.target.index])

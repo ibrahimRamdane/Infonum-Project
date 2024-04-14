@@ -34,5 +34,5 @@ def metric4(datetime,tabl):
     
     tabl['start'][1:]=tabl['start'][1:]
     tabl['stop'][:-1]=tabl['stop'][:-1]
-    met=slope(datetime,tabl)*((start_stop(datetime,tabl)[1]-datetime)**6/(13*((start_stop(datetime,tabl)[1]-start_stop(datetime,tabl)[0])**5)*max_start_stop(tabl)))
+    met=slope(datetime,tabl)*((start_stop(datetime,tabl)[1]-datetime)**2/(4*((start_stop(datetime,tabl)[1]-start_stop(datetime,tabl)[0]))*max_start_stop(tabl)))
     return met

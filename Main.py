@@ -2,6 +2,9 @@ from TS.Processing import *
 from TS.Metrics import *
 from TS.Visualization import *
 from NLP.news_analysis import NewsAnalyzer
+import mplcursors
+import textwrap
+
 
 # stocks1 =['AAPL','MSFT','TSM','ORCL','TXN','IBM','QCOM','MU','NTDOY','JD','HPQ']
 # stocks2='AAPL'
@@ -12,10 +15,10 @@ if __name__ == "__main__":
     start_date=input('Date de début (XXXX-XX-XX) : ')
     end_date=input('Date de fin (XXXX-XX-XX) : ')
     data=data_yf(numbers,start_date,end_date)
-    if int(len(data['Close'].index)/10)>=10:
+    if int(len(data['Close'].index)/10)>=1:
         precision_recommande=int(len(data['Close'].index)/10)
     else :
-        precision_recommande=10
+        precision_recommande=1
     precision=int(input("Précision des segments ({} recomandé)) : ".format(precision_recommande)))
     visu=input('Visualisation des courbes ? (Y/N) : ')
     if len(numbers)==0:
@@ -36,17 +39,41 @@ if __name__ == "__main__":
         plot_graph(data,numbers)
         plot_segm(data,precision)
         L=[]
-        dict={}
+        date_r=[]
+        Close_r=[]
+        date_g=[]
+        Close_g=[]
         i=0
         for x in creneau:
             start_date_change = str(x[0])
             end_date_change = str(x[-1])
-            date=x[5]
+            date=cren_date(data,precision)[0]['start'][i]
             news = news_analyzer.most_important_news_embedding(0, start_date_change, end_date_change)
             L.append(news_analyzer.summarize(news))
-        #adding_image(plt.imread("logo hadamard stage.jfif"),2021)
-            plt.text(pd.Timestamp(date), close[i], L[i], fontsize=5, color='red')
+            if  cren_date(data,precision)[0]['metric'][i]<0:   
+                Close_r.append(close[i])
+                date_r.append(pd.Timestamp(date))
+            else:
+                Close_g.append(close[i])
+                date_g.append(pd.Timestamp(date))
             i=i+1
+        #adding_image(plt.imread("logo hadamard stage.jfif"),2021)
+        points_r=plt.scatter(date_r,Close_r,color='red')
+        points_g=plt.scatter(date_g,Close_g,color='green')
+        points = plt.scatter(date_r+date_g, Close_r+Close_g, color='none')
+        def on_hover(sel):
+    # Associer le texte correspondant à chaque point
+            if sel.target.index < len(L):
+                width = max(4, len(L[sel.target.index]) // 6)
+                wrapped_text = textwrap.fill(L[sel.target.index], width=width)
+                sel.annotation.set_text(wrapped_text)
+                if sel.target_[1] in Close_r:
+                  sel.annotation.get_bbox_patch().set_facecolor('red')
+                elif sel.target_[1] in Close_g:
+                  sel.annotation.get_bbox_patch().set_facecolor('green')
+                sel.annotation.get_bbox_patch().set(alpha=0.7)
+        mplcursors.cursor(points, hover=True).connect("add", on_hover)
+        print(cren_date(data,precision)[0])
         plt.show() 
     
     elif len(numbers)>=2:

@@ -12,8 +12,8 @@ import matplotlib.colors as mcolors
 
 from TS.Metrics import metric4
 
-stocks1 =['AAPL','MSFT']
-stocks2='AAPL'
+# stocks1 =['AAPL','MSFT']
+# stocks2='AAPL'
 
 def data_yf(stocks,start_date,end_date):
     data=yf.download(stocks, start=start_date, end=end_date)
